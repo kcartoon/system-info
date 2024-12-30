@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -13,24 +13,31 @@ const Index = () => {
   const getSystemInfo = async () => {
     setLoading(true);
     try {
-      const response = await fetch('/api/system-info');
-      const data = await response.json();
+      // Simulation de la récupération des données système
+      const mockData = {
+        recordNumber: 1,
+        domainName: "WORKGROUP",
+        computerName: "DESKTOP-XYZ123",
+        computerModel: "Dell XPS 15",
+        serialNumber: "ABC123XYZ",
+        operatingSystem: "Windows 10 Pro",
+        networkAdapters: [
+          { name: "Ethernet", macAddress: "00:11:22:33:44:55" },
+          { name: "Wi-Fi", macAddress: "AA:BB:CC:DD:EE:FF" }
+        ]
+      };
       
-      if (data.error) {
-        throw new Error(data.error);
-      }
-      
-      setSystemInfo(data);
+      setSystemInfo(mockData);
       toast({
         title: "Succès",
-        description: "Les informations système ont été récupérées et sauvegardées avec succès.",
+        description: "Les informations système ont été récupérées avec succès.",
       });
-    } catch (error: any) {
+    } catch (error) {
       console.error("Erreur lors de la récupération des informations système:", error);
       toast({
         variant: "destructive",
         title: "Erreur",
-        description: error.message || "Impossible de récupérer les informations système.",
+        description: "Impossible de récupérer les informations système.",
       });
     } finally {
       setLoading(false);
